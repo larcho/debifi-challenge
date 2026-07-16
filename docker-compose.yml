@@ -1,5 +1,4 @@
 x-common-environment: &common-environment
-  DATABASE_URL: postgresql://postgres:blogpassword@db/blog_dev
   EDITOR: nano
   RAILS_LOG_TO_STDOUT: 'true'
 
