@@ -30,21 +30,23 @@
       </div>
     </div>
 
-    <% if alert.present? %>
-      <div class="alert alert-danger alert-dismissible fade show mt-0">
-        <%= alert %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-      </div>
-    <% end %>
-    <% if notice.present? %>
-      <div class="alert alert-info alert-dismissible fade show mb-0">
-        <%= notice %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-      </div>
-    <% end %>
+    <div class="main-content mx-auto">
+      <% if alert.present? %>
+        <div class="alert alert-danger alert-dismissible fade show mt-0">
+          <%= alert %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% end %>
+      <% if notice.present? %>
+        <div class="alert alert-info alert-dismissible fade show mb-0">
+          <%= notice %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% end %>
 
-    <div class="container-fluid mt-4">
-      <%= yield %>
+      <div class="mt-4">
+        <%= yield %>
+      </div>
     </div>
   </body>
 </html>
