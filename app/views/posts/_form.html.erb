@@ -1,5 +1,14 @@
 <%= simple_form_for post do |f| %>
   <%= f.input :title, as: :string %>
-  <%= f.input :html_body %>
+
+  <div class="mb-3 post_html_body">
+    <%= f.label :html_body, class: 'form-label' %>
+    <%= f.hidden_field :html_body, id: 'post_html_body' %>
+    <trix-editor input="post_html_body" class="trix-content form-control<%= ' is-invalid' if post.errors[:html_body].any? %>"></trix-editor>
+    <% if post.errors[:html_body].any? %>
+      <div class="invalid-feedback d-block"><%= post.errors[:html_body].to_sentence %></div>
+    <% end %>
+  </div>
+
   <%= f.button :submit, "Save", class: 'btn btn-primary' %>
 <% end %>

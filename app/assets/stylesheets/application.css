@@ -18,6 +18,15 @@
   width: 60%;
 }
 
+trix-editor {
+  min-height: 8rem;
+}
+
+/* Posts are text-only, so hide Trix's file-attachment tools. */
+trix-toolbar .trix-button-group--file-tools {
+  display: none;
+}
+
 h3 {
   text-overflow: ellipsis;
   overflow: hidden;
