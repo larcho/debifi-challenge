@@ -186,9 +186,8 @@ class PostsTest < ActionDispatch::IntegrationTest
 
   test "a user cannot open the edit form for someone else's post" do
     sign_in @other
-    assert_raises(ActiveRecord::RecordNotFound) do
-      get edit_post_path(@post)
-    end
+    get edit_post_path(@post)
+    assert_response :not_found
   end
 
   test "the author can update their post" do
@@ -216,10 +215,9 @@ class PostsTest < ActionDispatch::IntegrationTest
     sign_in @other
     original_title = @post.title
 
-    assert_raises(ActiveRecord::RecordNotFound) do
-      patch post_path(@post), params: { post: { title: "A hijacked title" } }
-    end
+    patch post_path(@post), params: { post: { title: "A hijacked title" } }
 
+    assert_response :not_found
     assert_equal original_title, @post.reload.title
   end
 
@@ -239,10 +237,25 @@ class PostsTest < ActionDispatch::IntegrationTest
   test "a user cannot destroy someone else's post" do
     sign_in @other
 
-    assert_raises(ActiveRecord::RecordNotFound) do
-      delete post_path(@post)
-    end
+    delete post_path(@post)
 
+    assert_response :not_found
     assert Post.exists?(@post.id)
+  end
+
+  # --- Missing records ------------------------------------------------------
+
+  test "viewing a post that does not exist returns 404" do
+    get post_path(id: 999_999)
+
+    assert_response :not_found
+    assert_match "Not found", response.body
+  end
+
+  test "editing a post that does not exist returns 404" do
+    sign_in @author
+    get edit_post_path(id: 999_999)
+
+    assert_response :not_found
   end
 end
