@@ -78,8 +78,6 @@ GEM
       activesupport (>= 5.0)
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
-    jbuilder (2.11.4)
-      activesupport (>= 5.0.0)
     listen (3.7.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -188,9 +186,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (>= 1.4.4)
   devise
-  jbuilder (~> 2.7)
   listen
-  nokogiri
   pg
   puma (~> 5.0)
   rails (~> 6.1.4, >= 6.1.4.4)

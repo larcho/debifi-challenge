@@ -6,12 +6,10 @@ gem 'puma', '~> 5.0'
 gem 'sass-rails', '>= 6'
 gem 'webpacker', '~> 5.0'
 gem 'turbolinks', '~> 5'
-gem 'jbuilder', '~> 2.7'
 gem 'pg'
 gem 'devise'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'simple_form'
-gem 'nokogiri'
 
 group :development do
   gem 'listen'
