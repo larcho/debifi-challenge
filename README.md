@@ -7,3 +7,10 @@
 # Usage
 
 1. Go to http://localhost:3000 for the main app
+
+# Documentation
+
+Project documentation lives in the [`docs/`](docs/) folder:
+
+- [Application Overview](docs/overview.md) — navigation and core features.
+- [Bugs Found](docs/bugs.md) — defects discovered while working on the project.
