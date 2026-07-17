@@ -1,14 +1,42 @@
-# Installation
+# The Blog Platform
 
-1. Install Docker. For MacOS or Windows (WSL 2) install Docker Desktop.
-2. Run `docker-compose up -d` in the terminal in this project's folder. Wait several minutes for all greens.
-3. Several more minutes are required to create database and fetch NPM packages. In case you see webpacker or database errors wait for a while.
+A small multi-user blogging platform built with Ruby on Rails. See the
+[documentation](#documentation) for an overview of its features.
 
-# Usage
+## Requirements
 
-1. Go to http://localhost:3000 for the main app
+The application runs entirely in Docker, so the only prerequisite is Docker
+with the Compose plugin:
 
-# Documentation
+- **macOS / Windows** — install [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+- **Linux** — install [Docker Engine](https://docs.docker.com/engine/install/) and the [Compose plugin](https://docs.docker.com/compose/install/).
+
+## Getting started
+
+1. From the project root, build and start the services:
+
+   ```
+   docker compose up -d
+   ```
+
+2. The first run takes a few minutes while the image builds, the database is
+   created and migrated, and the JavaScript packages are installed. Webpacker
+   or database errors during this initial startup are expected and clear up
+   once setup finishes.
+
+3. Open <http://localhost:3000>.
+
+Stop the services with `docker compose down`.
+
+## Running the tests
+
+```
+docker compose exec web bash -c "RAILS_ENV=test bundle exec rails db:prepare && RAILS_ENV=test bundle exec rails test"
+```
+
+The suite also runs automatically on every push via GitHub Actions.
+
+## Documentation
 
 Project documentation lives in the [`docs/`](docs/) folder:
 
