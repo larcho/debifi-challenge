@@ -60,11 +60,13 @@ entry point into the application.
 - **Read a post** — Each post has its own page showing the full formatted body.
 - **Search** — A search box on the post list filters posts whose title or body
   contains the entered text.
-- **Create a post** — Signed-in users can add a post with a title (5–100
-  characters) and an HTML body; both are required.
-- **Formatted content** — Post bodies may contain HTML formatting, which is
-  cleaned before display so that safe formatting is kept while scripts and
-  other unsafe markup are removed.
+- **Create a post** — Signed-in users can write a post with a title (5–100
+  characters) and a body; the body is entered through a rich text editor with
+  formatting tools (bold, italic, headings, lists, links, and more), so no HTML
+  knowledge is required. Both fields are required.
+- **Formatted content** — Post bodies keep their formatting, which is cleaned
+  before display so that safe formatting is kept while scripts and other unsafe
+  markup are removed.
 - **Edit a post** — Authors can update the title and body of their own posts;
   edit and delete controls appear only on posts the current user wrote.
 - **Delete a post** — Authors can permanently remove their own posts after a

@@ -1,9 +1,10 @@
 # Bugs Found
 
-This document records the defects discovered while exploring the application
-and building out its test suite. Each entry notes where the problem was, its
-impact, and how it was resolved. All items below have been fixed; the commit
-that addressed each one is referenced.
+This document records the defects found in the application while working on it,
+whether during exploration, while building out the test suite, or during later
+review. Each entry notes where the problem was, its impact, and how it was
+resolved. All items below have been fixed; the commit that addressed each one
+is referenced.
 
 ## Summary
 
@@ -17,6 +18,8 @@ that addressed each one is referenced.
 | 6 | Title search only matched suffixes | Posts search | Medium | Fixed (`fd6ffcf`) |
 | 7 | "Title too long" error showed a broken message | Validation | Low | Fixed (`e42edfa`) |
 | 8 | Post pages required login but the list did not | Access control | Low | Fixed (`46d81c5`) |
+| 9 | Missing posts showed an internal error | Error handling | Medium | Fixed (`b684dc3`) |
+| 10 | Plans page showed a badly rounded exchange rate | Plans page | Low | Fixed (`c50ca70`) |
 
 ---
 
@@ -115,3 +118,27 @@ login screen when trying to read it — an inconsistent experience.
 
 **Fix:** Viewing an individual post no longer requires authentication, matching
 the public post list.
+
+## 9. Missing posts showed an internal error (Medium)
+
+**Location:** `app/controllers/posts_controller.rb`
+
+Opening a post that does not exist (for example `/posts/2` after it was deleted)
+raised `ActiveRecord::RecordNotFound`, which surfaced an internal error page
+instead of a proper "not found" response. The same happened when acting on
+another user's post, which is looked up through the current user's posts.
+
+**Fix:** `ApplicationController` now rescues `RecordNotFound` and renders an
+in-app "Not found" page with a 404 status.
+
+## 10. Plans page showed a badly rounded exchange rate (Low)
+
+**Location:** `app/views/pages/plans.html.erb`, `app/services/exchange_rate_fetcher_service.rb`
+
+The Monthly plan printed the raw, high-precision result of the currency
+conversion (for example `105.4940263364437080317432 CZK`) because the value was
+never rounded for display.
+
+**Fix:** The converted amount is rounded to a whole koruna, matching the Yearly
+plan. The exchange-rate lookup was also switched to the free, key-less
+Frankfurter API, which returns the rate directly.
