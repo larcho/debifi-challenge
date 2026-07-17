@@ -6,7 +6,8 @@ class PostsController < ApplicationController
 
     q = params.dig(:search, :q)
     if q.present?
-      @posts = @posts.where("title ILIKE '%#{q}' OR html_body ILIKE '%#{q}%'")
+      pattern = "%#{Post.sanitize_sql_like(q)}%"
+      @posts = @posts.where("title ILIKE :pattern OR html_body ILIKE :pattern", pattern: pattern)
     end
   end
 

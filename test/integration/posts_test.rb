@@ -33,6 +33,60 @@ class PostsTest < ActionDispatch::IntegrationTest
     assert_no_match other_post.title, response.body
   end
 
+  test "search matches content anywhere in the title, not only as a suffix" do
+    post_with_match = @author.posts.create!(
+      title: "Ruby is great",
+      html_body: "<p>unrelated body</p>"
+    )
+
+    get posts_path, params: { search: { q: "Ruby" } }
+
+    assert_response :success
+    assert_match post_with_match.title, response.body
+  end
+
+  # --- Security -------------------------------------------------------------
+
+  test "search input cannot inject SQL" do
+    # If interpolated raw, the trailing "OR 1=1" would match every row.
+    get posts_path, params: { search: { q: "' OR 1=1 --" } }
+
+    assert_response :success
+    assert_no_match @post.title, response.body
+  end
+
+  test "search treats LIKE wildcards as literal characters" do
+    # A bare "%" would match everything if the wildcard were not escaped.
+    get posts_path, params: { search: { q: "%" } }
+
+    assert_response :success
+    assert_no_match @post.title, response.body
+  end
+
+  test "post body is sanitized to strip scripts when rendered" do
+    sign_in @other
+    @post.update_column(:html_body, "<p>safe content</p><script>alert('xss')</script>")
+
+    get post_path(@post)
+
+    assert_response :success
+    # The executable <script> element is stripped; safe formatting survives.
+    assert_no_match "<script>alert", response.body
+    assert_match "<p>safe content</p>", response.body
+  end
+
+  test "post body strips inline event handlers when rendered" do
+    sign_in @other
+    @post.update_column(:html_body, %(<a href="#" onclick="steal()">click</a>))
+
+    get post_path(@post)
+
+    assert_response :success
+    assert_no_match "onclick", response.body
+    assert_no_match "steal()", response.body
+    assert_match "click", response.body
+  end
+
   # --- Authentication guards ------------------------------------------------
 
   test "guests are redirected from the new post form" do

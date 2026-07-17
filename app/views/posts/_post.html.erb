@@ -2,7 +2,7 @@
 <div class="text-muted fw-lighter mb-2">Published at <%= post.created_at.strftime('%Y.%m.%d') %></div>
 
 <div class="mb-4">
-  <%= raw post.html_body %>
+  <%= sanitize post.html_body %>
 </div>
 
 <% if post.author == current_user %>
