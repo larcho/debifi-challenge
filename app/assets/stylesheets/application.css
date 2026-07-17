@@ -19,11 +19,15 @@
 }
 
 trix-editor {
-  min-height: 8rem;
+  min-height: 18rem;
 }
 
-/* Posts are text-only, so hide Trix's file-attachment tools. */
-trix-toolbar .trix-button-group--file-tools {
+/*
+ * Posts are text-only, so hide Trix's file-attachment tools. The extra class
+ * raises specificity above Trix's own `.trix-button-group { display: flex }`,
+ * which is injected later in the cascade.
+ */
+trix-toolbar .trix-button-group.trix-button-group--file-tools {
   display: none;
 }
 

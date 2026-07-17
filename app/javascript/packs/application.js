@@ -11,3 +11,6 @@ import "trix/dist/trix.css"
 
 Rails.start()
 Turbolinks.start()
+
+// Posts are text-only: reject any Trix file attachment (button, drag-drop, or paste).
+document.addEventListener("trix-file-accept", (event) => event.preventDefault())
