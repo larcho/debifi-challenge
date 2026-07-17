@@ -36,4 +36,4 @@ en:
         post:
           attributes:
             title:
-              too_long: en.activerecord.errors.models.post.attributes.title.too_long
+              too_long: "is too long (maximum is %{count} characters)"

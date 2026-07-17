@@ -35,7 +35,12 @@ class PostsController < ApplicationController
 
   def update
     @post = current_user.posts.find(params[:id])
-    redirect_to post_url(@post), notice: 'Post was saved'
+
+    if @post.update(post_params)
+      redirect_to post_url(@post), notice: 'Post was saved'
+    else
+      render action: :edit
+    end
   end
 
   def destroy
