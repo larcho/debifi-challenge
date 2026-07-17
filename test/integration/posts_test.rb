@@ -101,9 +101,10 @@ class PostsTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_path
   end
 
-  test "guests are redirected from a post's show page" do
+  test "guests can view a post's show page" do
     get post_path(@post)
-    assert_redirected_to new_user_session_path
+    assert_response :success
+    assert_match @post.title, response.body
   end
 
   test "guests are redirected from the edit form" do
